@@ -10,6 +10,8 @@ create table if not exists public.posts (
   title       text not null,
   content     text not null,
   category    text not null default 'daily',
+  views       integer not null default 0,
+  is_featured boolean not null default false,
   created_at  timestamptz not null default now(),
   updated_at  timestamptz not null default now()
 );
@@ -22,11 +24,31 @@ create index if not exists posts_created_at_idx
 create index if not exists posts_category_idx
   on public.posts (category);
 
+-- 인기글(조회수) 정렬 / 대표글 필터용 인덱스
+create index if not exists posts_views_idx
+  on public.posts (views desc);
+create index if not exists posts_featured_idx
+  on public.posts (is_featured) where is_featured;
+
+-- 조회수 +1 함수
+create or replace function public.increment_views(p_id uuid)
+returns void
+language sql
+as $$
+  update public.posts set views = views + 1 where id = p_id;
+$$;
+
 -- updated_at 자동 갱신 트리거
+-- (조회수만 바뀌는 경우엔 갱신하지 않도록 실제 내용 변경 시에만 동작)
 create or replace function public.set_updated_at()
 returns trigger as $$
 begin
-  new.updated_at = now();
+  if new.title is distinct from old.title
+     or new.content is distinct from old.content
+     or new.category is distinct from old.category
+     or new.is_featured is distinct from old.is_featured then
+    new.updated_at = now();
+  end if;
   return new;
 end;
 $$ language plpgsql;

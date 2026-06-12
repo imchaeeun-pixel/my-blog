@@ -7,7 +7,12 @@ import { CATEGORIES, DEFAULT_CATEGORY } from "@/lib/categories";
 
 type Props = {
   action: (prev: FormState, formData: FormData) => Promise<FormState>;
-  defaultValues?: { title?: string; content?: string; category?: string };
+  defaultValues?: {
+    title?: string;
+    content?: string;
+    category?: string;
+    is_featured?: boolean;
+  };
   submitLabel: string;
   cancelHref: string;
 };
@@ -67,11 +72,26 @@ export default function PostForm({
           name="content"
           rows={14}
           defaultValue={defaultValues?.content}
-          placeholder="내용을 입력하세요"
+          placeholder={
+            "내용을 입력하세요.\n\n• 이미지: 한 줄에 이미지 URL 만 붙여넣으면 사진으로 보입니다.\n  예) https://example.com/photo.jpg\n• 유튜브: 한 줄에 유튜브 URL 만 붙여넣으면 영상이 재생됩니다.\n  예) https://youtu.be/dQw4w9WgXcQ"
+          }
           required
           className="resize-y rounded-md border border-black/15 bg-transparent px-3 py-2 outline-none focus:border-black/40 dark:border-white/20 dark:focus:border-white/50"
         />
+        <p className="text-xs text-black/45 dark:text-white/45">
+          💡 이미지·유튜브 URL 을 본문에 <b>한 줄로</b> 넣으면 자동으로 사진/영상으로 표시됩니다.
+        </p>
       </div>
+
+      <label className="flex w-fit cursor-pointer items-center gap-2 text-sm font-medium">
+        <input
+          type="checkbox"
+          name="is_featured"
+          defaultChecked={defaultValues?.is_featured}
+          className="h-4 w-4 accent-sky-500"
+        />
+        ⭐ 대표글로 설정 (상단 대표글 영역에 노출)
+      </label>
 
       {state.error && (
         <p className="text-sm text-red-600" role="alert">

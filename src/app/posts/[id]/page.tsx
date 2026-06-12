@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { deletePostAction } from "@/app/posts/actions";
 import DeleteButton from "@/components/DeleteButton";
+import PostContent from "@/components/PostContent";
 import type { Post } from "@/lib/types";
 import { categoryLabel } from "@/lib/categories";
 
@@ -26,6 +27,10 @@ export default async function PostDetailPage({
   const { id } = await params;
 
   const supabase = await createClient();
+
+  // 조회수 +1 (updated_at 은 바뀌지 않도록 DB 함수로 처리)
+  await supabase.rpc("increment_views", { p_id: id });
+
   const { data: post } = await supabase
     .from("posts")
     .select("*")
@@ -50,14 +55,18 @@ export default async function PostDetailPage({
           {categoryLabel(post.category)}
         </Link>
         <h1 className="text-3xl font-bold">{post.title}</h1>
-        <time className="text-sm text-black/40 dark:text-white/40">
-          {formatDate(post.created_at)}
-          {post.updated_at !== post.created_at &&
-            ` (수정됨: ${formatDate(post.updated_at)})`}
-        </time>
+        <div className="flex items-center gap-3 text-sm text-black/40 dark:text-white/40">
+          <time>
+            {formatDate(post.created_at)}
+            {post.updated_at !== post.created_at &&
+              ` (수정됨: ${formatDate(post.updated_at)})`}
+          </time>
+          <span aria-hidden>·</span>
+          <span title="조회수">👁 {(post.views ?? 0).toLocaleString("ko-KR")}</span>
+        </div>
       </div>
 
-      <div className="whitespace-pre-wrap leading-relaxed">{post.content}</div>
+      <PostContent content={post.content} />
 
       <div className="flex items-center gap-3 border-t border-black/10 pt-6 dark:border-white/10">
         <Link

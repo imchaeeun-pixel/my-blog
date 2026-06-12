@@ -12,7 +12,8 @@ function parseForm(formData: FormData) {
   const content = String(formData.get("content") ?? "").trim();
   const rawCategory = String(formData.get("category") ?? "").trim();
   const category = isCategorySlug(rawCategory) ? rawCategory : DEFAULT_CATEGORY;
-  return { title, content, category };
+  const is_featured = formData.get("is_featured") != null;
+  return { title, content, category, is_featured };
 }
 
 /** 글 작성 — useActionState 시그니처 (prevState, formData) */
@@ -20,7 +21,7 @@ export async function createPostAction(
   _prev: FormState,
   formData: FormData,
 ): Promise<FormState> {
-  const { title, content, category } = parseForm(formData);
+  const { title, content, category, is_featured } = parseForm(formData);
   if (!title || !content) {
     return { error: "제목과 내용을 모두 입력하세요." };
   }
@@ -28,7 +29,7 @@ export async function createPostAction(
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("posts")
-    .insert({ title, content, category })
+    .insert({ title, content, category, is_featured })
     .select("id")
     .single();
 
@@ -44,7 +45,7 @@ export async function updatePostAction(
   _prev: FormState,
   formData: FormData,
 ): Promise<FormState> {
-  const { title, content, category } = parseForm(formData);
+  const { title, content, category, is_featured } = parseForm(formData);
   if (!title || !content) {
     return { error: "제목과 내용을 모두 입력하세요." };
   }
@@ -52,7 +53,7 @@ export async function updatePostAction(
   const supabase = await createClient();
   const { error } = await supabase
     .from("posts")
-    .update({ title, content, category })
+    .update({ title, content, category, is_featured })
     .eq("id", id);
 
   if (error) return { error: error.message };

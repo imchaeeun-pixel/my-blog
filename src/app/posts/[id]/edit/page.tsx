@@ -31,6 +31,7 @@ export default async function EditPostPage({
           title: post.title,
           content: post.content,
           category: post.category,
+          is_featured: post.is_featured,
         }}
         submitLabel="수정 완료"
         cancelHref={`/posts/${post.id}`}
