@@ -2,6 +2,13 @@
   "name": "my-blog",
   "version": "0.1.0",
   "private": true,
+  "description": "채은이의 일기 — Next.js + Supabase 블로그",
+  "license": "MIT",
+  "author": "imchaeeun-pixel",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/imchaeeun-pixel/my-blog.git"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",

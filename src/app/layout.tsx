@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "My Blog",
-  description: "Next.js + Supabase 개인 블로그",
+  title: "채은이의 일기",
+  description: "채은이의 일상 · 여행 · 개발 이야기를 담은 블로그",
 };
 
 export default function RootLayout({
@@ -42,7 +42,7 @@ export default function RootLayout({
         <header className="sticky top-0 z-10 border-b border-white/40 bg-white/40 backdrop-blur-md dark:border-white/10 dark:bg-black/20">
           <div className="mx-auto flex w-full max-w-3xl items-center px-6 py-4">
             <Link href="/" className="text-lg font-bold">
-              ☁️ My Blog
+              ☁️ 채은이의 일기
             </Link>
           </div>
         </header>
