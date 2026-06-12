@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm --version)",
+      "Bash(git --version)",
+      "PowerShell(npm *)",
+      "PowerShell(Get-Command *)",
+      "PowerShell(winget install *)",
+      "PowerShell($env:Path = [System.Environment]::GetEnvironmentVariable\\(\"Path\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"Path\",\"User\"\\); npx tsc --noEmit)",
+      "PowerShell(npm run *)",
+      "PowerShell(try { $r = Invoke-WebRequest -Uri \"http://localhost:3000/\" -UseBasicParsing -TimeoutSec 30; \"STATUS: $\\($r.StatusCode\\)\"; if \\($r.Content -match \"Supabase 설정이 필요\"\\) { \"OK: 설정 안내 화면 렌더링됨\" } elseif \\($r.Content -match \"블로그 글\"\\) { \"OK: 목록 화면 렌더링됨\" } else { \"WARN: 예상 문구 없음\" } } catch { \"REQ ERROR: $\\($_.Exception.Message\\)\" })",
+      "PowerShell(try { $r = Invoke-WebRequest -Uri \"http://localhost:3000/posts/new\" -UseBasicParsing -TimeoutSec 30; \"STATUS: $\\($r.StatusCode\\)\"; if \\($r.Content -match \"새 글 작성\"\\) { \"OK: 작성 폼 렌더링됨\" } else { \"WARN: 폼 문구 없음\" } } catch { \"REQ ERROR: $\\($_.Exception.Message\\)\" })",
+      "Bash(npm run *)",
+      "PowerShell($env:Path = \"C:\\\\Program Files\\\\nodejs;\" + $env:Path; & \"C:\\\\Program Files\\\\nodejs\\\\npm.cmd\" run dev)",
+      "PowerShell(try { $r = Invoke-WebRequest -Uri \"http://localhost:3000\" -UseBasicParsing -TimeoutSec 30; \"STATUS: $\\($r.StatusCode\\)\"; if\\($r.Content -match \"블로그 글\"\\){\"OK: 블로그 목록 페이지 렌더링됨\"}elseif\\($r.Content -match \"Supabase 설정\"\\){\"WARN: Supabase 설정 안내 화면\"}elseif\\($r.Content -match \"불러오지 못\"\\){\"ERROR: DB 로드 실패 \\(테이블 미생성 가능성\\)\"}else{\"?? 본문 일부:\"; \\($r.Content -split \"`n\" | Select-Object -First 3\\)} } catch { \"REQUEST FAILED: $\\($_.Exception.Message\\)\" })",
+      "PowerShell(Write-Output \"=== nodejs 실제 존재 여부 ===\"; Test-Path \"C:\\\\Program Files\\\\nodejs\\\\npm.cmd\"; Write-Output \"=== User PATH 에 nodejs 포함? ===\"; $u=[Environment]::GetEnvironmentVariable\\(\"Path\",\"User\"\\); if\\($u -match \"nodejs\"\\){\"YES \\(User\\)\"}else{\"NO \\(User\\)\"}; Write-Output \"=== Machine PATH 에 nodejs 포함? ===\"; $m=[Environment]::GetEnvironmentVariable\\(\"Path\",\"Machine\"\\); if\\($m -match \"nodejs\"\\){\"YES \\(Machine\\)\"}else{\"NO \\(Machine\\)\"})",
+      "PowerShell($m=[Environment]::GetEnvironmentVariable\\(\"Path\",\"Machine\"\\); \\($m -split \";\" | Where-Object { $_ -match \"nodejs\" }\\) | ForEach-Object { \"Machine entry: [$_]  -> exists? \" + \\(Test-Path $_\\) }; Write-Output \"=== 현재 세션 PATH 에 nodejs 있나? ===\"; if\\($env:Path -match \"nodejs\"\\){\"YES - 현재 세션엔 있음\\(이상함\\)\"}else{\"NO - 현재 세션 PATH 가 stale\"})",
+      "PowerShell(& \"C:\\\\Users\\\\zxcvb\\\\VIBECODING\\\\my-blog\\\\dev.cmd\")",
+      "PowerShell(Get-Content *)",
+      "PowerShell(Start-Process \"http://localhost:3000\"; Write-Output \"브라우저로 http://localhost:3000 열기 요청함\")",
+      "PowerShell(try { $r=Invoke-WebRequest \"http://localhost:3000\" -UseBasicParsing -TimeoutSec 40; \"STATUS $\\($r.StatusCode\\)\"; if\\($r.Content -match \"분야|전체|블로그 글\"\\){\"OK 렌더링됨 \\(필터바 포함\\)\"} else {\"본문 확인 필요\"} } catch { \"FAIL: $\\($_.Exception.Message\\)\" })",
+      "PowerShell(try { $r=Invoke-WebRequest \"http://localhost:3000\" -UseBasicParsing -TimeoutSec 40; \"STATUS $\\($r.StatusCode\\)\"; if\\($r.Content -match \"cloud-drift|backdrop-blur|My Blog\"\\){\"OK: 구름 배경/카드 적용된 페이지 렌더링됨\"} } catch { \"FAIL: $\\($_.Exception.Message\\)\" })"
+    ]
+  }
+}
